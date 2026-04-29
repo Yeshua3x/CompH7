@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "text": "Qual é seu objetivo imediato ao usar este produto/serviço?",
+    "hint": "Escolha uma opção",
+    "options": [
+      { "text": "Obter uma solução rápida", "value": 8, "intentStep": 1 },
+      { "text": "Aprender a usar melhor", "value": 16, "intentStep": 2 },
+      { "text": "Converter em venda/resultado", "value": 20, "intentStep": 3 }
+    ]
+  },
+  {
+    "id": 2,
+    "text": "Ao procurar informação, você normalmente:",
+    "options": [
+      { "text": "Procura respostas prontas", "value": 8, "intentStep": 1 },
+      { "text": "Compara fontes e aprende", "value": 16, "intentStep": 2 },
+      { "text": "Busca o que leva à ação", "value": 20, "intentStep": 3 }
+    ]
+  },
+  {
+    "id": 3,
+    "text": "Quando toma uma decisão de compra, você:",
+    "options": [
+      { "text": "Decide rápido por necessidade", "value": 8, "intentStep": 1 },
+      { "text": "Pesquisa e pensa no custo-benefício", "value": 16, "intentStep": 2 },
+      { "text": "Já tem em mente o resultado que quer", "value": 20, "intentStep": 3 }
+    ]
+  },
+  {
+    "id": 4,
+    "text": "Como você planeja seguir após obter uma solução?",
+    "options": [
+      { "text": "Usar e encerrar", "value": 8, "intentStep": 1 },
+      { "text": "Aprofundar e integrar ao processo", "value": 16, "intentStep": 2 },
+      { "text": "Escalar e vender/automatizar", "value": 20, "intentStep": 3 }
+    ]
+  },
+  {
+    "id": 5,
+    "text": "Ao receber suporte ou feedback, você:",
+    "options": [
+      { "text": "Aplica só o mínimo", "value": 8, "intentStep": 1 },
+      { "text": "Ajusta e testa", "value": 16, "intentStep": 2 },
+      { "text": "Itera rápido e otimiza vendas/resultados", "value": 20, "intentStep": 3 }
+    ]
+  },
+  {
+    "id": 6,
+    "text": "Seu foco principal é:",
+    "options": [
+      { "text": "Resolver um problema pontual", "value": 8, "intentStep": 1 },
+      { "text": "Melhorar habilidades", "value": 16, "intentStep": 2 },
+      { "text": "Gerar ganhos/receita", "value": 20, "intentStep": 3 }
+    ]
+  },
+  {
+    "id": 7,
+    "text": "Quando convidado a agir, você prefere:",
+    "options": [
+      { "text": "Uma ação simples e imediata", "value": 8, "intentStep": 1 },
+      { "text": "Um passo-a-passo para aprender", "value": 16, "intentStep": 2 },
+      { "text": "Uma oportunidade de retorno financeiro", "value": 20, "intentStep": 3 }
+    ]
+  }
+]
