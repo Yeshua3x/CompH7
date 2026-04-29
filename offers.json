@@ -1,0 +1,43 @@
+{
+  "intentMap": {
+    "1": "Foco em soluções rápidas — ideal para ação imediata.",
+    "2": "Foco em aprendizado — ideal para consolidar habilidades.",
+    "3": "Foco em resultado — ideal para escalar/monetizar."
+  },
+  "critico": [
+    {
+      "id": "critico-ebook-1",
+      "title": "Recuperação Rápida: Guia Prático",
+      "description": "Checklist e passos de ação para estabilizar rotinas e responder a crises.",
+      "price": "R$19",
+      "cta": "Baixar e-book",
+      "link": "https://example.com/ebook-recuperacao",
+      "coverPlaceholder": "",
+      "coverUrl": "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=600&auto=format&fit=crop"
+    }
+  ],
+  "em-desenvolvimento": [
+    {
+      "id": "dev-ebook-1",
+      "title": "Do Interesse à Ação",
+      "description": "Manual para transformar aprendizado em hábito e resultado.",
+      "price": "R$29",
+      "cta": "Baixar e-book",
+      "link": "https://example.com/ebook-acao",
+      "coverPlaceholder": "",
+      "coverUrl": "https://images.unsplash.com/photo-1483058712412-4245e9b90334?q=80&w=600&auto=format&fit=crop"
+    }
+  ],
+  "saudavel": [
+    {
+      "id": "top-ebook-1",
+      "title": "Escala & Monetize",
+      "description": "Estratégias para transformar processos em receita.",
+      "price": "R$49",
+      "cta": "Baixar e-book",
+      "link": "https://example.com/ebook-monetize",
+      "coverPlaceholder": "",
+      "coverUrl": "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?q=80&w=600&auto=format&fit=crop"
+    }
+  ]
+}
