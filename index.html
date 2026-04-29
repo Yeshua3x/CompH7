@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Quiz de Intencionalidade — Responsivo</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#07132a;
+    --card:#071a33;
+    --muted:#9fb0c8;
+    --accent:#2563eb;
+    --accent-2:#60a5fa;
+    --danger:#ef4444;
+    --glass: rgba(255,255,255,0.03);
+    --radius:14px;
+    --maxWidth:1100px;
+  }
+  *{box-sizing:border-box;font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#e9f2ff}
+  html,body{height:100%;margin:0;background:linear-gradient(180deg,#041024 0%, #07132a 60%);-webkit-font-smoothing:antialiased}
+  .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+  .card{
+    width:100%;max-width:var(--maxWidth);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:18px;padding:18px;box-shadow: 0 12px 40px rgba(2,6,23,0.6);backdrop-filter: blur(6px);
+    display:grid;grid-template-columns: 380px 1fr;gap:18px;
+  }
+
+  /* Left column */
+  .left{padding:16px;background:linear-gradient(180deg,var(--glass),rgba(255,255,255,0.01));border-radius:12px;border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:12px}
+  h1{font-size:20px;margin:0 0 6px 0;font-weight:700}
+  p.lead{margin:0;color:var(--muted);font-size:13px}
+  .progress-wrap{margin-top:8px}
+  .bar-bg{height:20px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,0.02);position:relative}
+  .bar-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;padding-left:10px;color:#fff;font-weight:700;transition:width 700ms cubic-bezier(.2,.9,.3,1),background 300ms}
+  .bar-critical{background:linear-gradient(90deg,var(--danger),#ff7b7b)}
+  .meta{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--muted);margin-top:8px}
+  .small{font-size:12px;color:var(--muted)}
+  .result{padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);border:1px solid rgba(255,255,255,0.02)}
+  .tag{display:inline-block;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:600;color:var(--muted);font-size:13px}
+  .offer-grid{display:flex;flex-direction:column;gap:10px;margin-top:10px}
+  .offer{display:flex;gap:10px;align-items:center;padding:10px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)}
+  .ebook-img{width:80px;height:110px;border-radius:6px;object-fit:cover;background:linear-gradient(180deg,#02102a,#04213a);display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;flex-shrink:0}
+  .controls-left{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+
+  /* Right column */
+  .right{padding:16px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.008));border-radius:12px;border:1px solid rgba(255,255,255,0.02);display:flex;flex-direction:column;gap:12px}
+  .question{background:linear-gradient(180deg,rgba(255,255,255,0.01),transparent);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.015);display:flex;flex-direction:column;gap:8px}
+  .q-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+  .q-text{font-weight:700}
+  .options{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+  .opt{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.02);background:transparent;color:var(--muted);cursor:pointer;display:flex;align-items:center;gap:10px;transition:all 180ms}
+  .opt:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(2,6,23,0.45)}
+  .opt.selected{background:linear-gradient(90deg, rgba(37,99,235,0.12), rgba(96,165,250,0.06));color:#eaf2ff;border-color:rgba(96,165,250,0.18)}
+  .controls{display:flex;gap:8px;margin-top:auto;align-items:center}
+  button.btn{padding:10px 14px;border-radius:10px;border:0;color:#07122a;font-weight:700;cursor:pointer}
+  .btn-primary{background:var(--accent)}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted)}
+  .muted-block{color:var(--muted);font-size:13px}
+
+  footer.small{font-size:12px;color:var(--muted);text-align:center;padding-top:6px}
+
+  /* Responsive adjustments */
+  @media (max-width:980px){
+    .card{grid-template-columns:1fr;gap:12px;padding:14px}
+    .left{order:2}
+    .right{order:1}
+    .ebook-img{width:70px;height:98px}
+  }
+  @media (max-width:480px){
+    h1{font-size:18px}
+    .bar-bg{height:16px}
+    .bar-fill{font-size:12px;padding-left:8px}
+    .ebook-img{width:64px;height:88px}
+    .opt{padding:12px;font-size:14px}
+    .controls{flex-wrap:wrap}
+    .controls-left{width:100%;justify-content:space-between}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="card" role="application" aria-label="Quiz de Intencionalidade">
+    <div class="left" id="leftCol">
+      <div>
+        <h1>Quiz de Intencionalidade</h1>
+        <p class="lead">Descubra a intenção e receba ofertas personalizadas após concluir.</p>
+      </div>
+
+      <div class="progress-wrap" aria-live="polite">
+        <div class="bar-bg" title="Progresso">
+          <div id="bar" class="bar-fill" style="width:0%">0%</div>
+        </div>
+        <div class="meta">
+          <div class="small">Pontuação: <span id="scoreLabel">0</span>/100</div>
+          <div class="small" id="statusLabel">Status: Neutro</div>
+        </div>
+      </div>
+
+      <div class="result" id="resultBox" tabindex="-1" aria-live="polite" style="margin-top:12px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <div>
+            <div class="tag" id="profileTag">Perfil: Indefinido</div>
+          </div>
+          <div class="small" id="adviceShort">Complete o quiz para ver recomendações.</div>
+        </div>
+        <div style="margin-top:10px;color:var(--muted);font-size:13px" id="detailBox">--</div>
+
+        <div id="offersArea" style="margin-top:12px;display:none">
+          <h3 style="margin:0 0 8px 0;font-size:15px">Ofertas para você</h3>
+          <div id="offersList" class="offer-grid"></div>
+          <div class="controls-left">
+            <button id="restartBtn" class="btn btn-ghost">Reiniciar quiz</button>
+            <button id="downloadPlan" class="btn btn-primary" style="display:none">Baixar plano</button>
+          </div>
+        </div>
+      </div>
+
+      <footer class="small">Design responsivo • E-books exibidos apenas ao finalizar • JSON externo para edição</footer>
+    </div>
+
+    <div class="right">
+      <div id="questionsContainer" aria-live="polite"></div>
+
+      <div class="controls">
+        <button id="prevBtn" class="btn btn-ghost" disabled>Anterior</button>
+        <button id="nextBtn" class="btn btn-primary">Próxima</button>
+        <div style="margin-left:auto" class="small" id="qProgress">Pergunta 1/7</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/*
+Fluxo:
+- Carrega questions.json e offers.json (mesmo diretório).
+- questions.json: array de perguntas; cada pergunta inclui opções com 'text','value'(0..20),'intentStep'(1..3)
+- offers.json: semelhante à versão anterior (buckets por perfil)
+- Ao finalizar: exibe ofertas e revela as capas reais (coverUrl). Mostrar botão reiniciar que reseta estado.
+- Gera JSON das respostas (obj literal) e disponibiliza para download via botão "Baixar plano" (se quiser).
+*/
+
+const QUESTIONS_URL = 'questions.json';
+const OFFERS_URL = 'offers.json';
+
+let questions = [];
+let offersConfig = null;
+
+let state = { current:0, answers: [] };
+
+const qc = document.getElementById('questionsContainer');
+const bar = document.getElementById('bar');
+const scoreLabel = document.getElementById('scoreLabel');
+const statusLabel = document.getElementById('statusLabel');
+const profileTag = document.getElementById('profileTag');
+const detailBox = document.getElementById('detailBox');
+const adviceShort = document.getElementById('adviceShort');
+const qProgress = document.getElementById('qProgress');
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const offersArea = document.getElementById('offersArea');
+const offersList = document.getElementById('offersList');
+const restartBtn = document.getElementById('restartBtn');
+const downloadPlan = document.getElementById('downloadPlan');
+
+function loadJSON(url){
+  return fetch(url).then(res => {
+    if(!res.ok) throw new Error('Falha ao carregar ' + url);
+    return res.json();
+  });
+}
+
+function init(){
+  Promise.all([loadJSON(QUESTIONS_URL).catch(e=>{console.error(e); return null;}), loadJSON(OFFERS_URL).catch(e=>{console.error(e); return null;})])
+    .then(([qjson, offers])=>{
+      if(!qjson || !Array.isArray(qjson)) {
+        qc.innerHTML = '<div class="muted-block">Não foi possível carregar perguntas. Verifique questions.json</div>';
+        return;
+      }
+      questions = qjson;
+      offersConfig = offers || {};
+      resetState();
+      renderQuestion(0);
+      updateScoreDisplay();
+    });
+}
+
+function resetState(){
+  state.current = 0;
+  state.answers = Array(questions.length).fill(null);
+  // UI reset
+  offersArea.style.display = 'none';
+  downloadPlan.style.display = 'none';
+  qProgress.textContent = `Pergunta 1/${questions.length || 0}`;
+  prevBtn.disabled = true;
+  nextBtn.disabled = false;
+  nextBtn.textContent = 'Próxima';
+  bar.style.width = '0%';
+  bar.textContent = '0%';
+  scoreLabel.textContent = '0';
+  statusLabel.textContent = 'Neutro';
+  profileTag.textContent = 'Perfil: Indefinido';
+  detailBox.textContent = '--';
+}
+
+function renderQuestion(index){
+  const q = questions[index];
+  if(!q){ qc.innerHTML = '<div class="muted-block">Pergunta inválida</div>'; return; }
+  qc.innerHTML = '';
+  const wrap = document.createElement('div'); wrap.className='question';
+  const head = document.createElement('div'); head.className='q-head';
+  const qt = document.createElement('div'); qt.className='q-text'; qt.textContent = q.text || ('Pergunta ' + (index+1));
+  const hint = document.createElement('div'); hint.className='small'; hint.textContent = q.hint || 'Escolha uma opção';
+  head.appendChild(qt); head.appendChild(hint);
+  wrap.appendChild(head);
+
+  const opts = document.createElement('div'); opts.className='options';
+  (q.options || []).forEach((o,i)=>{
+    const b = document.createElement('button');
+    b.className = 'opt';
+    b.type='button';
+    b.innerHTML = `<div style="flex:1;text-align:left">${o.text}</div><div style="color:var(--muted);font-size:13px">${o.value || 0} pts</div>`;
+    if(state.answers[index] === i) b.classList.add('selected');
+    b.addEventListener('click', ()=> {
+      state.answers[index] = i;
+      [...opts.children].forEach(el=>el.classList.remove('selected'));
+      b.classList.add('selected');
+      setTimeout(()=> {
+        if(index < questions.length -1) {
+          state.current = index +1; renderQuestion(state.current);
+        }
+        updateControls();
+        updateScoreDisplay();
+      }, 160);
+    });
+    opts.appendChild(b);
+  });
+  wrap.appendChild(opts);
+  qc.appendChild(wrap);
+
+  qProgress.textContent = `Pergunta ${index+1}/${questions.length}`;
+  prevBtn.disabled = index === 0;
+  nextBtn.textContent = (index === questions.length -1) ? 'Finalizar' : 'Próxima';
+}
+
+function calcScore(){
+  let total=0; let answered=0;
+  state.answers.forEach((sel, idx) => {
+    if(sel !== null && sel !== undefined){
+      const val = (questions[idx].options && questions[idx].options[sel] && questions[idx].options[sel].value) || 0;
+      total += val;
+      answered++;
+    }
+  });
+  const max = (questions.length || 1) * 20;
+  const normalized = Math.round((total / max) * 100);
+  return {totalScore: normalized, raw: total, answered};
+}
+
+function deriveIntentSteps(){
+  const counts = {1:0,2:0,3:0};
+  state.answers.forEach((sel, idx) => {
+    if(sel !== null && sel !== undefined){
+      const step = (questions[idx].options && questions[idx].options[sel] && questions[idx].options[sel].intentStep) || 1;
+      counts[step] = (counts[step] || 0) + 1;
+    }
+  });
+  const sorted = Object.keys(counts).sort((a,b)=> counts[b]-counts[a]);
+  return {counts, priority: sorted.map(Number)};
+}
+
+function determineProfile(score){
+  if(score <= 39) return 'critico';
+  if(score <= 69) return 'em-desenvolvimento';
+  return 'saudavel';
+}
+
+function updateScoreDisplay(){
+  const s = calcScore();
+  scoreLabel.textContent = s.totalScore;
+  bar.style.width = s.totalScore + '%';
+  bar.textContent = s.totalScore + '%';
+
+  if(s.totalScore <= 39){
+    bar.classList.add('bar-critical');
+    statusLabel.textContent = 'Crítico';
+    profileTag.textContent = 'Perfil: Crítico';
+    adviceShort.textContent = 'Atenção necessária';
+    detailBox.innerHTML = `<strong>Interpretação:</strong> Padrões críticos. Recomenda-se ações imediatas.`;
+  } else if(s.totalScore <= 69){
+    bar.classList.remove('bar-critical');
+    statusLabel.textContent = 'Em desenvolvimento';
+    profileTag.textContent = 'Perfil: Em desenvolvimento';
+    adviceShort.textContent = 'Alguns pontos a melhorar';
+    detailBox.innerHTML = `<strong>Interpretação:</strong> Há intenção, falta consistência.`;
+  } else {
+    bar.classList.remove('bar-critical');
+    statusLabel.textContent = 'Saudável';
+    profileTag.textContent = 'Perfil: Saudável';
+    adviceShort.textContent = 'Bom equilíbrio';
+    detailBox.innerHTML = `<strong>Interpretação:</strong> Estratégias sólidas para ação e resultados.`;
+  }
+
+  if(s.answered === 0){
+    bar.style.width = '0%'; bar.textContent = '0%';
+    statusLabel.textContent = 'Neutro';
+    profileTag.textContent = 'Perfil: Indefinido';
+    adviceShort.textContent = 'Complete o quiz para ver recomendações.';
+    detailBox.textContent = '--';
+    offersArea.style.display = 'none';
+    downloadPlan.style.display = 'none';
+  }
+}
+
+function presentOffers(){
+  const s = calcScore();
+  const profileKey = determineProfile(s.totalScore);
+  const bucket = (offersConfig && offersConfig[profileKey]) ? offersConfig[profileKey] : [];
+  offersList.innerHTML = '';
+  if(bucket.length === 0){
+    offersList.innerHTML = '<div class="small">Nenhuma oferta disponível para este perfil.</div>';
+    offersArea.style.display = 'block';
+    return;
+  }
+
+  const intent = deriveIntentSteps();
+  const primaryIntent = intent.priority[0];
+
+  bucket.forEach(off => {
+    const item = document.createElement('div'); item.className='offer';
+    const imgWrapper = document.createElement('div'); imgWrapper.className='ebook-img';
+    const img = document.createElement('img');
+    img.alt = off.title || 'Capa';
+    img.src = off.coverPlaceholder || '';
+    img.style.width='100%'; img.style.height='100%'; img.style.borderRadius='6px'; img.style.objectFit='cover';
+    img.dataset.realcover = off.coverUrl || '';
+    imgWrapper.appendChild(img);
+
+    const meta = document.createElement('div'); meta.style.flex='1';
+    const title = document.createElement('div'); title.style.fontWeight='700'; title.textContent = off.title || 'Oferta';
+    const desc = document.createElement('div'); desc.className='small'; desc.style.marginTop='6px';
+    const intentText = offersConfig && offersConfig.intentMap && offersConfig.intentMap[primaryIntent] ? offersConfig.intentMap[primaryIntent] : '';
+    desc.innerHTML = (off.description || '') + (intentText ? `<br><br><em>${intentText}</em>` : '');
+    meta.appendChild(title); meta.appendChild(desc);
+
+    const ctaWrap = document.createElement('div'); ctaWrap.style.display='flex'; ctaWrap.style.flexDirection='column'; ctaWrap.style.gap='8px'; ctaWrap.style.alignItems='flex-end';
+    const price = document.createElement('div'); price.className='small'; price.style.fontWeight='700'; price.textContent = off.price || '';
+    const btn = document.createElement('button'); btn.className='btn btn-primary'; btn.style.padding='8px 10px'; btn.textContent = off.cta || 'Abrir';
+    btn.addEventListener('click', ()=> {
+      if(off.link) window.open(off.link, '_blank');
+    });
+    ctaWrap.appendChild(price); ctaWrap.appendChild(btn);
+
+    item.appendChild(imgWrapper); item.appendChild(meta); item.appendChild(ctaWrap);
+    offersList.appendChild(item);
+  });
+
+  offersArea.style.display = 'block';
+}
+
+function revealCoversAndPlan(){
+  document.querySelectorAll('.ebook-img img').forEach(img => {
+    const real = img.dataset.realcover;
+    if(real && real.length>0) img.src = real;
+  });
+
+  // append suggested plan to detailBox
+  const intent = deriveIntentSteps();
+  const order = intent.priority;
+  const planHtml = `<div style="margin-top:10px"><strong>Plano sugerido (ordem):</strong><br>
+    1) ${intentTextFor(order[0])}<br>
+    2) ${intentTextFor(order[1])}<br>
+    3) ${intentTextFor(order[2])}</div>`;
+  detailBox.innerHTML += planHtml;
+  // prepare downloadable JSON of respostas
+  downloadPlan.style.display = 'inline-block';
+  const payload = buildResultJSON();
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type: 'application/json'});
+  const url = URL.createObjectURL(blob);
+  downloadPlan.onclick = ()=> { const a = document.createElement('a'); a.href = url; a.download = 'quiz-result.json'; a.click(); };
+}
+
+function intentTextFor(step){
+  const map = {1:'Ação imediata e simples.', 2:'Aprendizado e integração.', 3:'Escala e monetização.'};
+  return map[step] || '';
+}
+
+function buildResultJSON(){
+  const s = calcScore();
+  const intent = deriveIntentSteps();
+  const profile = determineProfile(s.totalScore);
+  const answers = questions.map((q, idx) => {
+    const sel = state.answers[idx];
+    return {
+      questionId: q.id || idx+1,
+      questionText: q.text,
+      selectedIndex: (sel === null ? null : sel),
+      selectedText: (sel === null ? null : (q.options && q.options[sel] && q.options[sel].text) || null),
+      value: (sel === null ? null : (q.options && q.options[sel] && q.options[sel].value) || null),
+      intentStep: (sel === null ? null : (q.options && q.options[sel] && q.options[sel].intentStep) || null)
+    };
+  });
+
+  return {
+    timestamp: new Date().toISOString(),
+    score: s.totalScore,
+    raw: s.raw,
+    answered: s.answered,
+    profile,
+    intentCounts: intent.counts,
+    intentPriority: intent.priority,
+    answers
+  };
+}
+
+/* Controls */
+prevBtn.addEventListener('click', ()=> {
+  if(state.current > 0){ state.current--; renderQuestion(state.current); updateScoreDisplay(); }
+});
+
+nextBtn.addEventListener('click', ()=> {
+  if(state.current < questions.length -1){ state.current++; renderQuestion(state.current); updateScoreDisplay(); }
+  else {
+    // finalize
+    updateScoreDisplay();
+    presentOffers();
+    revealCoversAndPlan();
+    // focus on results
+    document.getElementById('resultBox').focus();
+  }
+});
+
+restartBtn.addEventListener('click', ()=> {
+  resetState();
+  renderQuestion(0);
+  updateScoreDisplay();
+  // scroll to top in mobile
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+
+// keyboard navigation
+document.addEventListener('keydown', (e) => {
+  const k = e.key;
+  if(['1','2','3','4','5'].includes(k)){ // support up to 5 options if present
+    const q = state.current;
+    const idx = parseInt(k,10) - 1;
+    if(questions[q] && questions[q].options && questions[q].options[idx]){
+      state.answers[q] = idx;
+      renderQuestion(q);
+      updateScoreDisplay();
+    }
+  } else if(k === 'ArrowRight' || k === 'Enter'){
+    nextBtn.click();
+  } else if(k === 'ArrowLeft'){
+    prevBtn.click();
+  }
+});
+
+/* Init loader */
+init();
+</script>
+</body>
+</html>
